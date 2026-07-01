@@ -2,13 +2,17 @@
 
 import { useEffect, useState } from "react";
 import NetworkCanvas from "./NetworkCanvas";
-import ImageSlot from "./ImageSlot";
 import { useFadeFromLeft, useFadeFromRight } from "@/app/hooks/useFadeIn";
+import Image from "next/image";
 
-export default function HeroSection() {
+export default function HeroSection({ ready = true }: { ready?: boolean }) {
   const [time, setTime] = useState("--:--:--");
-  const nameRef = useFadeFromLeft({ duration: 0.9 });
-  const imageRef = useFadeFromRight({ duration: 0.9, delay: 0.15 });
+  const nameRef = useFadeFromLeft({ duration: 0.9, enabled: ready });
+  const imageRef = useFadeFromRight({
+    duration: 0.9,
+    enabled: ready,
+    delay: 0.2,
+  });
   const infoLeftRef = useFadeFromLeft();
   const infoRightRef = useFadeFromRight();
 
@@ -50,16 +54,13 @@ export default function HeroSection() {
             </h1>
           </div>
 
-          <div ref={imageRef} className="flex-1 min-w-0 w-full">
-            <ImageSlot
+          <div ref={imageRef} className="relative aspect-square w-full flex-1 ">
+            <Image
+              fill
+              className="object-cover object-right rounded-full"
               id="hero-photo"
-              placeholder="Déposez une image (votre photo, un visuel…)"
-              style={{
-                width: "100%",
-                height: "clamp(280px,42vh,500px)",
-                borderRadius: 14,
-                border: "1px solid rgba(255,255,255,0.16)",
-              }}
+              src={"/images/profil/Abderahmane_Adjali.jpeg"}
+              alt="Abderahmane Adjali"
             />
           </div>
         </div>

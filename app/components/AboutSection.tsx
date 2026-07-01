@@ -61,7 +61,7 @@ export default function AboutSection() {
           </p>
           <div className="flex gap-10 mt-[34px] font-mono">
             <StatItem target={4} label="Ans d'expérience" />
-            <StatItem target={85} suffix="%" label="Couverture back-end" />
+            <StatItem target={100} suffix="%" label="de satisfaction" />
             <StatItem
               target={2.5}
               decimals={1}

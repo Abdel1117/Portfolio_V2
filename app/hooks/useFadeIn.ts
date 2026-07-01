@@ -23,6 +23,8 @@ export interface UseFadeInOptions {
   start?: string;
   /** Play once vs. replay on re-entry. */
   once?: boolean;
+  /** Set to false to defer setup (e.g. until a loading screen is gone). */
+  enabled?: boolean;
 }
 
 const OFFSETS: Record<FadeDirection, { x: number; y: number }> = {
@@ -44,6 +46,7 @@ export function useFadeIn<T extends HTMLElement = HTMLDivElement>(
     ease = "power3.out",
     start = "top 85%",
     once = true,
+    enabled = true,
   } = options;
 
   useIsomorphicLayoutEffect(() => {
@@ -56,6 +59,12 @@ export function useFadeIn<T extends HTMLElement = HTMLDivElement>(
     }
 
     const { x, y } = OFFSETS[direction];
+
+    if (!enabled) {
+      gsap.set(el, { opacity: 0, x: x * distance, y: y * distance });
+      return;
+    }
+
     const ctx = gsap.context(() => {
       gsap.fromTo(
         el,
@@ -79,7 +88,7 @@ export function useFadeIn<T extends HTMLElement = HTMLDivElement>(
     }, el);
 
     return () => ctx.revert();
-  }, [direction, distance, duration, delay, ease, start, once]);
+  }, [direction, distance, duration, delay, ease, start, once, enabled]);
 
   return ref;
 }

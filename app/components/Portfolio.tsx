@@ -84,7 +84,7 @@ export default function Portfolio() {
     >
       {loading && <LoadingScreen onDone={() => setLoading(false)} />}
       <Nav theme={theme} onToggleTheme={toggleTheme} />
-      <HeroSection />
+      <HeroSection ready={!loading} />
       <MarqueeBar />
       <AboutSection />
       <ExpertiseSection />

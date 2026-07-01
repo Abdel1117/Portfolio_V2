@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "@/app/globals.css";
+import { Analytics } from "@vercel/analytics/next";
+
 export const metadata: Metadata = {
   title: "Abderahmane Adjali — Développeur Web Full Stack",
   description:
@@ -30,7 +32,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
-      <body>{children}</body>
+      <body>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
