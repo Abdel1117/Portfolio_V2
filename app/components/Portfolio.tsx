@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import LoadingScreen from "./LoadingScreen";
 import Nav from "./Nav";
 import HeroSection from "./HeroSection";
 import MarqueeBar from "./MarqueeBar";
@@ -14,6 +15,7 @@ import ContactSection from "./ContactSection";
 
 export default function Portfolio() {
   const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     try {
@@ -21,6 +23,13 @@ export default function Portfolio() {
       if (t === "light" || t === "dark") setTheme(t);
     } catch {}
   }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = loading ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [loading]);
 
   useEffect(() => {
     if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
@@ -73,6 +82,7 @@ export default function Portfolio() {
       className="bg-theme text-theme font-sans min-h-screen overflow-x-hidden"
       style={{ transition: "background .45s ease, color .45s ease" }}
     >
+      {loading && <LoadingScreen onDone={() => setLoading(false)} />}
       <Nav theme={theme} onToggleTheme={toggleTheme} />
       <HeroSection />
       <MarqueeBar />

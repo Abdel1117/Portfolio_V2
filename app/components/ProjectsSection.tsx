@@ -3,7 +3,9 @@
 import SectionHeader from "./SectionHeader";
 import { chipSm } from "./styles";
 import { projects, type Project } from "./data";
-import { useFadeFromBottom } from "@/hooks/useFadeIn";
+import { useFadeFromBottom } from "@/app/hooks/useFadeIn";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function ProjectsSection() {
   return (
@@ -26,15 +28,15 @@ function ProjectCard({ p, isLast }: { p: Project; isLast: boolean }) {
 
   const previewBlock = (
     <div
-      className={`${p.flip ? "md:order-2" : "md:order-1"} aspect-[16/11] bg-(--bg-2) border border-(--line) relative overflow-hidden flex items-end justify-between p-[18px]`}
+      className={`${p.flip ? "md:order-2" : "md:order-1"} aspect-video bg-(--bg-2) border border-(--line) relative overflow-hidden flex items-end justify-between p-[18px] ${p.available ? "hover:cursor-pointer" : "hover:cursor-not-allowed"}`}
     >
-      <span className="font-sans font-bold text-[clamp(60px,9vw,120px)] leading-[0.8] text-(--line) absolute top-[6px] left-[14px]">
-        {p.n}
-      </span>
-      <span className="font-mono text-[11px] text-(--fg-2) relative">
-        [ aperçu — {p.preview} ]
-      </span>
-      <span className="font-mono text-[11px] text-(--fg-2) relative">↗</span>
+      {p.available === true ? (
+        <Link href={p.href} target="_blank">
+          <Image fill className="object-fit" src={p.image} alt={p.desc} />
+        </Link>
+      ) : (
+        <Image fill className="object-fit" src={p.image} alt={p.desc} />
+      )}
     </div>
   );
 
@@ -65,7 +67,6 @@ function ProjectCard({ p, isLast }: { p: Project; isLast: boolean }) {
       ref={ref}
       className={`proj grid grid-cols-1 gap-5 py-9 border-t border-(--line) items-center md:grid-cols-2 md:gap-12 md:py-12${isLast ? " border-b" : ""}`}
     >
-      {/* image DOM-first so the 3D-tilt selector (div:first-child) hits it */}
       {previewBlock}
       {textBlock}
     </article>

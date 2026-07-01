@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import NetworkCanvas from "./NetworkCanvas";
 import ImageSlot from "./ImageSlot";
-import { useFadeFromLeft, useFadeFromRight } from "@/hooks/useFadeIn";
+import { useFadeFromLeft, useFadeFromRight } from "@/app/hooks/useFadeIn";
 
 export default function HeroSection() {
   const [time, setTime] = useState("--:--:--");
@@ -93,7 +93,7 @@ export default function HeroSection() {
             <div className="flex gap-3.5 mt-[34px]">
               <a
                 href="#projets"
-                className="btn-solid font-mono text-xs tracking-[0.06em] uppercase bg-blue-600 text-black px-[22px] py-[14px] border border-(--fg)"
+                className="btn-solid font-mono text-xs tracking-[0.06em] uppercase bg-(--bg) text-(--fg) px-[22px] py-[14px] border border-(--fg)"
               >
                 Voir mes projets →
               </a>

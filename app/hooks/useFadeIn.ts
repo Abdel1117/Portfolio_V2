@@ -168,6 +168,69 @@ export function useStaggerReveal<T extends HTMLElement = HTMLDivElement>(
   return ref;
 }
 
+export interface UseCountUpOptions {
+  decimals?: number;
+  suffix?: string;
+  duration?: number;
+  start?: string;
+  once?: boolean;
+}
+
+/** Animates a number from 0 to `target` when the element scrolls into view. */
+export function useCountUp<T extends HTMLElement = HTMLDivElement>(
+  target: number,
+  options: UseCountUpOptions = {},
+) {
+  const ref = useRef<T>(null);
+  const {
+    decimals = 0,
+    suffix = "",
+    duration = 1.4,
+    start = "top 85%",
+    once = true,
+  } = options;
+
+  useIsomorphicLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const format = (n: number) =>
+      n.toLocaleString("fr-FR", {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals,
+      }) + suffix;
+
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
+      el.textContent = format(target);
+      return;
+    }
+
+    el.textContent = format(0);
+    const counter = { val: 0 };
+    const ctx = gsap.context(() => {
+      gsap.to(counter, {
+        val: target,
+        duration,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: el,
+          start,
+          toggleActions: once
+            ? "play none none none"
+            : "play none none reverse",
+        },
+        onUpdate: () => {
+          el.textContent = format(counter.val);
+        },
+      });
+    }, el);
+
+    return () => ctx.revert();
+  }, [target, decimals, suffix, duration, start, once]);
+
+  return ref;
+}
+
 /** Reveals a SectionHeader: clip-in title + growing underline, in sync. */
 export function useSectionReveal(options: UseFadeInOptions = {}) {
   const containerRef = useRef<HTMLDivElement>(null);

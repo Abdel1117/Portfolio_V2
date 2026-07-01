@@ -2,7 +2,7 @@
 
 import SectionHeader from "./SectionHeader";
 import { testimonials } from "./data";
-import { useFadeFromBottom } from "@/hooks/useFadeIn";
+import { useFadeFromBottom } from "@/app/hooks/useFadeIn";
 
 export default function TestimonialsSection() {
   const ref = useFadeFromBottom();
@@ -15,10 +15,13 @@ export default function TestimonialsSection() {
       <SectionHeader title="Témoignages" tag="RETOURS" />
       <div
         ref={ref}
-        className="grid grid-cols-1 gap-px md:grid-cols-2 bg-(--line) border border-(--line)"
+        className="grid grid-cols-1 gap-8 md:grid-cols-2  overflow-hidden"
       >
         {testimonials.map((tm) => (
-          <blockquote key={tm.author} className="bg-(--bg) m-0 p-11">
+          <blockquote
+            key={tm.author}
+            className="bg-(--bg) border border-[var(--line)] rounded-lg m-0 p-11"
+          >
             <p className="font-serif font-normal italic text-[clamp(22px,2.5vw,28px)] leading-[1.4] m-0 mb-7">
               {tm.quote}
             </p>

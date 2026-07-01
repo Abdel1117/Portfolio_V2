@@ -1,19 +1,23 @@
 "use client";
 
 import { useState } from "react";
-import { useFadeFromBottom } from "@/hooks/useFadeIn";
+import { useFadeFromBottom } from "@/app/hooks/useFadeIn";
+import { useSendContactEmail } from "../hooks/useSendContactEmail";
 
 export default function ContactSection() {
   const titleRef = useFadeFromBottom();
   const bodyRef = useFadeFromBottom();
+
+  const { reset, send, status } = useSendContactEmail();
   const [form, setForm] = useState({
     nom: "",
     email: "",
     sujet: "",
     message: "",
   });
-  const [formMsg, setFormMsg] = useState("");
-  const [sending, setSending] = useState(false);
+  const [formMsg, setFormMsg] = useState<string>("");
+  const [errorFormMsg, setErrorFormMSg] = useState<string>("");
+  const sending = status === "loading";
 
   const onField = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -21,43 +25,39 @@ export default function ContactSection() {
     const { name, value } = e.target;
     setForm((s) => ({ ...s, [name]: value }));
     setFormMsg("");
+    setErrorFormMSg("");
+    reset();
   };
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setFormMsg("");
+    setErrorFormMSg("");
     if (!form.nom.trim() || !form.email.trim() || !form.message.trim()) {
-      setFormMsg("⚠ Merci de remplir les champs requis.");
+      setErrorFormMSg("⚠ Merci de remplir les champs requis.");
       return;
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) {
-      setFormMsg("⚠ Adresse email invalide.");
+      setErrorFormMSg("⚠ Adresse email invalide.");
       return;
     }
-    setSending(true);
     setFormMsg("Envoi…");
-    setTimeout(() => {
-      try {
-        const subject = encodeURIComponent(
-          form.sujet.trim() || "Contact portfolio — " + form.nom.trim(),
-        );
-        const body = encodeURIComponent(
-          form.message.trim() +
-            "\n\n— " +
-            form.nom.trim() +
-            " (" +
-            form.email.trim() +
-            ")",
-        );
-        window.location.href =
-          "mailto:Abderahmane.adjali@live.fr?subject=" +
-          subject +
-          "&body=" +
-          body;
-      } catch {}
-      setSending(false);
-      setFormMsg("✓ Message prêt — votre client mail s'ouvre.");
+    const ok = await send({
+      name: form.nom.trim(),
+      email: form.email.trim(),
+      message:
+        (form.sujet.trim() ? `[${form.sujet.trim()}] ` : "") +
+        form.message.trim(),
+    });
+    if (ok) {
+      setFormMsg("✓ Message envoyé — je vous réponds sous 24 h.");
       setForm({ nom: "", email: "", sujet: "", message: "" });
-    }, 600);
+    } else {
+      setErrorFormMSg(
+        "⚠ Échec de l'envoi, réessayez ou écrivez-moi directement.",
+      );
+      setFormMsg("");
+    }
   };
 
   const inputCls =
@@ -145,11 +145,17 @@ export default function ContactSection() {
             <div className="flex items-center gap-[18px] mt-[22px]">
               <button
                 type="submit"
-                className="btn-solid font-mono text-xs tracking-[0.06em] uppercase bg-(--fg) text-(--bg) px-[26px] py-[15px] border border-(--fg) cursor-pointer"
+                disabled={sending ? true : false}
+                className={`btn-solid font-mono text-xs tracking-[0.06em] uppercase bg-(--fg) text-(--bg) px-[26px] py-[15px] border border-(--fg) ${sending ? "cursor-not-allowed" : "cursor-pointer"}`}
               >
                 {sending ? "Envoi…" : "Envoyer le message →"}
               </button>
-              <span className="font-mono text-xs text-(--fg-2)">{formMsg}</span>
+              <span className="font-mono text-xs text-green-600">
+                {formMsg}
+              </span>
+              <span className="font-mono text-xs text-red-600">
+                {errorFormMsg}
+              </span>
             </div>
           </form>
 
@@ -195,13 +201,26 @@ export default function ContactSection() {
             Abderahmane.adjali@live.fr
           </a>
           <div className="flex gap-7 font-mono text-xs tracking-[0.06em] uppercase">
-            <a href="#" className="contact-link text-(--fg-2)">
+            <a
+              href="https://github.com/Abdel1117"
+              target="_blank"
+              className="contact-link text-(--fg-2)"
+            >
               GitHub ↗
             </a>
-            <a href="#" className="contact-link text-(--fg-2)">
+            <a
+              href="https://www.linkedin.com/in/abderahmane-adjali-bb2972212/"
+              target="_blank"
+              className="contact-link text-(--fg-2)"
+            >
               LinkedIn ↗
             </a>
-            <a href="#" className="contact-link text-(--fg-2)">
+            <a
+              href="/images/cv/CV__Abderahmane_Adjali_Developpeur_Full_Stack.pdf"
+              target="_blank"
+              className="contact-link text-(--fg-2)"
+              rel="noopener noreferrer"
+            >
               CV (PDF) ↗
             </a>
           </div>

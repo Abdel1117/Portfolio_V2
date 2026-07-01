@@ -1,7 +1,32 @@
 "use client";
 
 import SectionHeader from "./SectionHeader";
-import { useFadeFromBottom } from "@/hooks/useFadeIn";
+import { useFadeFromBottom, useCountUp } from "@/app/hooks/useFadeIn";
+
+function StatItem({
+  target,
+  decimals = 0,
+  suffix = "",
+  label,
+}: {
+  target: number;
+  decimals?: number;
+  suffix?: string;
+  label: string;
+}) {
+  const valueRef = useCountUp<HTMLDivElement>(target, { decimals, suffix });
+
+  return (
+    <div>
+      <div ref={valueRef} className="text-[32px] text-(--fg)">
+        0
+      </div>
+      <div className="text-[11px] tracking-[0.06em] uppercase mt-1">
+        {label}
+      </div>
+    </div>
+  );
+}
 
 export default function AboutSection() {
   const ref = useFadeFromBottom();
@@ -35,18 +60,13 @@ export default function AboutSection() {
             85 % de couverture back-end.
           </p>
           <div className="flex gap-10 mt-[34px] font-mono">
-            {[
-              ["4", "Ans d'expérience"],
-              ["85%", "Couverture back-end"],
-              ["2,5", "Ans chez CA Assurances"],
-            ].map(([v, l]) => (
-              <div key={l}>
-                <div className="text-[32px] text-(--fg)">{v}</div>
-                <div className="text-[11px] tracking-[0.06em] uppercase mt-1">
-                  {l}
-                </div>
-              </div>
-            ))}
+            <StatItem target={4} label="Ans d'expérience" />
+            <StatItem target={85} suffix="%" label="Couverture back-end" />
+            <StatItem
+              target={2.5}
+              decimals={1}
+              label="Ans chez CA Assurances"
+            />
           </div>
         </div>
       </div>

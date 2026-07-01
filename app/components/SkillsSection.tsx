@@ -1,7 +1,7 @@
 import SectionHeader from "./SectionHeader";
 import { chipMd } from "./styles";
 import { skills } from "./data";
-import { useStaggerReveal } from "@/hooks/useFadeIn";
+import { useStaggerReveal } from "@/app/hooks/useFadeIn";
 
 export default function SkillsSection() {
   const gridRef = useStaggerReveal({ stagger: 0.18 });
@@ -21,7 +21,7 @@ export default function SkillsSection() {
           {skills.map((s) => (
             <div
               key={s.n}
-              className="tile col-span-1 md:[grid-column:var(--col-span)] bg-(--bg) border border-(--line) p-8"
+              className="tile col-span-1 md:[grid-column:var(--col-span)] bg-(--bg) border border-(--line) p-8 rounded-xl"
               style={{ "--col-span": `span ${s.span}` } as React.CSSProperties}
             >
               <div className="flex justify-between items-baseline mb-6">

@@ -3,7 +3,7 @@
 import SectionHeader from "./SectionHeader";
 import { chipSm } from "./styles";
 import { expertise } from "./data";
-import { useFadeFromBottom, useStaggerReveal } from "@/hooks/useFadeIn";
+import { useFadeFromBottom, useStaggerReveal } from "@/app/hooks/useFadeIn";
 
 export default function ExpertiseSection() {
   const introRef = useFadeFromBottom();

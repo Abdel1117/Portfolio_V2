@@ -1,6 +1,6 @@
 "use client";
 
-import { useSectionReveal } from "@/hooks/useFadeIn";
+import { useSectionReveal } from "@/app/hooks/useFadeIn";
 
 type Props = { title: string; tag: string };
 

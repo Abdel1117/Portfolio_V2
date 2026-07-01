@@ -2,7 +2,7 @@
 
 import SectionHeader from "./SectionHeader";
 import { timeline } from "./data";
-import { useStaggerReveal } from "@/hooks/useFadeIn";
+import { useStaggerReveal } from "@/app/hooks/useFadeIn";
 
 export default function TimelineSection() {
   const listRef = useStaggerReveal({ direction: "left", stagger: 0.1 });

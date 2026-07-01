@@ -79,8 +79,8 @@ export default function NetworkCanvas() {
               n.vy += dy * f * 0.012;
             }
           }
-          n.vx = Math.max(-0.8, Math.min(0.8, n.vx * 0.998));
-          n.vy = Math.max(-0.8, Math.min(0.8, n.vy * 0.998));
+          n.vx = Math.max(-0.8, Math.min(0.8, n.vx));
+          n.vy = Math.max(-0.8, Math.min(0.8, n.vy));
         }
       }
 
