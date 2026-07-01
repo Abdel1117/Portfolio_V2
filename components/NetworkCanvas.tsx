@@ -30,7 +30,7 @@ export default function NetworkCanvas() {
     let nodes: Node[] = [];
 
     const buildNodes = () => {
-      const count = Math.max(34, Math.min(120, Math.round((w * h) / 14000)));
+      const count = 600;
       nodes = [];
       for (let i = 0; i < count; i++) {
         nodes.push({
@@ -57,22 +57,6 @@ export default function NetworkCanvas() {
     window.addEventListener("resize", resize);
 
     const mouse = { x: -9999, y: -9999, active: false };
-    const host = cv.parentElement;
-    const onPointer = (e: PointerEvent) => {
-      const r = cv.getBoundingClientRect();
-      mouse.x = e.clientX - r.left;
-      mouse.y = e.clientY - r.top;
-      mouse.active = true;
-    };
-    const onLeave = () => {
-      mouse.active = false;
-      mouse.x = -9999;
-      mouse.y = -9999;
-    };
-    if (host) {
-      host.addEventListener("pointermove", onPointer);
-      host.addEventListener("pointerleave", onLeave);
-    }
 
     const draw = () => {
       ctx.clearRect(0, 0, w, h);
@@ -109,7 +93,7 @@ export default function NetworkCanvas() {
           const d2 = dx * dx + dy * dy;
           if (d2 < LINK2) {
             const al = (1 - d2 / LINK2) * 0.22;
-            ctx.strokeStyle = "rgba(255,255,255," + al.toFixed(3) + ")";
+            ctx.strokeStyle = "rgba(33, 172, 195, " + al.toFixed(3) + ")";
             ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
@@ -123,7 +107,7 @@ export default function NetworkCanvas() {
           const d2 = dx * dx + dy * dy;
           if (d2 < LINK2 * 1.6) {
             const al = (1 - d2 / (LINK2 * 1.6)) * 0.4;
-            ctx.strokeStyle = "rgba(255,255,255," + al.toFixed(3) + ")";
+            ctx.strokeStyle = "rgba(33, 172, 195, " + al.toFixed(3) + ")";
             ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
@@ -134,7 +118,7 @@ export default function NetworkCanvas() {
       }
 
       for (const n of nodes) {
-        ctx.fillStyle = "rgba(10, 6, 238, 0.7)";
+        ctx.fillStyle = "rgba(174, 198, 199, 0.7)";
         ctx.beginPath();
         ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
         ctx.fill();
@@ -147,10 +131,6 @@ export default function NetworkCanvas() {
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
-      if (host) {
-        host.removeEventListener("pointermove", onPointer);
-        host.removeEventListener("pointerleave", onLeave);
-      }
     };
   }, []);
 

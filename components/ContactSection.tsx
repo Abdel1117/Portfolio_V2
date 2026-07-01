@@ -1,8 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { useFadeFromBottom } from "@/hooks/useFadeIn";
 
 export default function ContactSection() {
+  const titleRef = useFadeFromBottom();
+  const bodyRef = useFadeFromBottom();
   const [form, setForm] = useState({
     nom: "",
     email: "",
@@ -79,7 +82,7 @@ export default function ContactSection() {
         </div>
 
         <h2
-          data-reveal
+          ref={titleRef}
           className="font-sans font-semibold text-[clamp(44px,8vw,120px)] leading-[0.9] tracking-[-0.04em] m-0 mb-12"
         >
           Travaillons
@@ -88,7 +91,7 @@ export default function ContactSection() {
         </h2>
 
         <div
-          data-reveal
+          ref={bodyRef}
           className="grid grid-cols-1 gap-10 items-start border-t border-(--line) pt-12 mb-14 md:grid-cols-[1.1fr_0.9fr] md:gap-14"
         >
           <form onSubmit={onSubmit} className="flex flex-col">

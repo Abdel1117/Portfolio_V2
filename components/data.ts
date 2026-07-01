@@ -32,7 +32,17 @@ export const expertise = [
   },
 ];
 
-export const projects = [
+export type Project = {
+  n: string;
+  kind: string;
+  title: string;
+  preview: string;
+  desc: string;
+  tags: string[];
+  flip: boolean;
+};
+
+export const projects: Project[] = [
   {
     n: "01",
     kind: "PROJET PERSONNEL · 2025",

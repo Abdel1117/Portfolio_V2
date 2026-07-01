@@ -1,8 +1,11 @@
 import SectionHeader from "./SectionHeader";
 import { chipMd } from "./styles";
 import { skills } from "./data";
+import { useStaggerReveal } from "@/hooks/useFadeIn";
 
 export default function SkillsSection() {
+  const gridRef = useStaggerReveal({ stagger: 0.18 });
+
   return (
     <section
       id="competences"
@@ -10,15 +13,14 @@ export default function SkillsSection() {
       style={{ transition: "background .45s ease" }}
     >
       <div className="max-w-[1280px] mx-auto px-5 py-12 sm:px-6 sm:py-16 md:px-8 md:py-[100px]">
-        <SectionHeader num="( 03 )" title="Compétences" tag="STACK TECHNIQUE" />
+        <SectionHeader title="Compétences" tag="STACK TECHNIQUE" />
         <div
-          data-stagger="0.08"
+          ref={gridRef}
           className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 gap-[14px]"
         >
           {skills.map((s) => (
             <div
               key={s.n}
-              data-reveal
               className="tile col-span-1 md:[grid-column:var(--col-span)] bg-(--bg) border border-(--line) p-8"
               style={{ "--col-span": `span ${s.span}` } as React.CSSProperties}
             >
@@ -39,10 +41,7 @@ export default function SkillsSection() {
               </div>
             </div>
           ))}
-          <div
-            data-reveal
-            className="tile col-span-1 md:col-span-2 bg-(--fg) text-(--bg) p-8 flex flex-col justify-center"
-          >
+          <div className="tile col-span-1 md:col-span-2 bg-(--fg) text-(--bg) p-8 flex flex-col justify-center">
             <p className="font-serif italic font-normal text-[clamp(20px,2.2vw,26px)] leading-[1.3] m-0">
               « Le bon outil au bon endroit. La technique au service du produit,
               jamais l&apos;inverse. »

@@ -1,14 +1,19 @@
+"use client";
+
 import SectionHeader from "./SectionHeader";
+import { useFadeFromBottom } from "@/hooks/useFadeIn";
 
 export default function AboutSection() {
+  const ref = useFadeFromBottom();
+
   return (
     <section
       id="apropos"
       className="scroll-mt-[72px] max-w-[1280px] mx-auto px-5 py-12 sm:px-6 sm:py-16 md:px-8 md:py-[100px]"
     >
-      <SectionHeader num="( 01 )" title="À propos" tag="PRÉSENTATION" />
+      <SectionHeader title="À propos" tag="PRÉSENTATION" />
       <div
-        data-reveal
+        ref={ref}
         className="grid grid-cols-1 gap-9 md:grid-cols-[1.3fr_1fr] md:gap-16 items-start"
       >
         <p className="font-serif font-normal text-[clamp(24px,3vw,34px)] leading-[1.35] tracking-[-0.01em] m-0">

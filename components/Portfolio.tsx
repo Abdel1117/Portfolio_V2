@@ -23,59 +23,11 @@ export default function Portfolio() {
   }, []);
 
   useEffect(() => {
-    document
-      .querySelectorAll<HTMLElement>("[data-stagger]")
-      .forEach((group) => {
-        const step =
-          parseFloat(group.getAttribute("data-stagger") || "") || 0.09;
-        let i = 0;
-        group
-          .querySelectorAll<HTMLElement>(":scope > [data-reveal]")
-          .forEach((child) => {
-            child.style.setProperty("--aa-delay", (i * step).toFixed(3) + "s");
-            i++;
-          });
-      });
-    const els = Array.from(
-      document.querySelectorAll<HTMLElement>("[data-reveal]"),
-    );
-    const reduce = window.matchMedia?.(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    if (reduce || !("IntersectionObserver" in window)) {
-      els.forEach((el) => el.classList.add("aa-in"));
-      return;
-    }
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            e.target.classList.add("aa-in");
-            io.unobserve(e.target);
-          }
-        });
-      },
-      { threshold: 0.1, rootMargin: "0px 0px -6% 0px" },
-    );
-    els.forEach((el) => io.observe(el));
-    const safety = setTimeout(
-      () => els.forEach((el) => el.classList.add("aa-in")),
-      2500,
-    );
-    return () => {
-      io.disconnect();
-      clearTimeout(safety);
-    };
-  }, []);
-
-  useEffect(() => {
     if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
     if (window.matchMedia?.("(hover: none)").matches) return;
     const targets: [HTMLElement, number][] = [];
     document
-      .querySelectorAll<HTMLElement>(
-        "#competences [data-stagger] > [data-reveal]",
-      )
+      .querySelectorAll<HTMLElement>("#competences .tile")
       .forEach((e) => targets.push([e, 7]));
     document
       .querySelectorAll<HTMLElement>("#projets article > div:first-child")

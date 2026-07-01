@@ -1,8 +1,14 @@
+"use client";
+
 import SectionHeader from "./SectionHeader";
 import { chipSm } from "./styles";
 import { expertise } from "./data";
+import { useFadeFromBottom, useStaggerReveal } from "@/hooks/useFadeIn";
 
 export default function ExpertiseSection() {
+  const introRef = useFadeFromBottom();
+  const listRef = useStaggerReveal({ direction: "left", stagger: 0.09 });
+
   return (
     <section
       id="expertise"
@@ -10,9 +16,9 @@ export default function ExpertiseSection() {
       style={{ transition: "background .45s ease" }}
     >
       <div className="max-w-[1280px] mx-auto px-5 py-12 sm:px-6 sm:py-16 md:px-8 md:py-[100px]">
-        <SectionHeader num="( 02 )" title="Expertise" tag="CE QUE JE LIVRE" />
+        <SectionHeader title="Expertise" tag="CE QUE JE LIVRE" />
         <p
-          data-reveal
+          ref={introRef}
           className="font-serif font-normal text-[clamp(22px,3vw,32px)] leading-[1.35] tracking-[-0.01em] m-0 mb-14 max-w-[30ch]"
         >
           Un accompagnement complet,{" "}
@@ -21,14 +27,10 @@ export default function ExpertiseSection() {
           </em>{" "}
           jusqu&apos;à la mise en production — et au-delà.
         </p>
-        <div
-          data-stagger="0.09"
-          className="flex flex-col border-t border-(--line)"
-        >
+        <div ref={listRef} className="flex flex-col border-t border-(--line)">
           {expertise.map((x) => (
             <article
               key={x.n}
-              data-reveal="left"
               className="exp-row grid grid-cols-[40px_1fr] gap-[10px_14px] py-6 border-b border-(--line) items-start md:grid-cols-[64px_1fr_1.15fr_auto] md:gap-7 md:py-9"
             >
               <span className="font-mono text-[13px] text-(--fg-2)">{x.n}</span>

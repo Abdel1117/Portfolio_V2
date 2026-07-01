@@ -1,7 +1,12 @@
+"use client";
+
 import SectionHeader from "./SectionHeader";
 import { timeline } from "./data";
+import { useStaggerReveal } from "@/hooks/useFadeIn";
 
 export default function TimelineSection() {
+  const listRef = useStaggerReveal({ direction: "left", stagger: 0.1 });
+
   return (
     <section
       id="parcours"
@@ -9,16 +14,11 @@ export default function TimelineSection() {
       style={{ transition: "background .45s ease" }}
     >
       <div className="max-w-[1280px] mx-auto px-5 py-12 sm:px-6 sm:py-16 md:px-8 md:py-[100px]">
-        <SectionHeader
-          num="( 05 )"
-          title="Parcours"
-          tag="EXPÉRIENCE & FORMATION"
-        />
-        <div data-stagger="0.1" className="flex flex-col">
+        <SectionHeader title="Parcours" tag="EXPÉRIENCE & FORMATION" />
+        <div ref={listRef} className="flex flex-col">
           {timeline.map((t, idx) => (
             <div
               key={t.title}
-              data-reveal="left"
               className={`grid grid-cols-1 gap-1.5 py-[22px] border-t border-(--line) md:grid-cols-[180px_1fr] md:gap-8 md:py-[30px]${idx === timeline.length - 1 ? " border-b" : ""}`}
             >
               <div>

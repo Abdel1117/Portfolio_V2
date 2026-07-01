@@ -1,15 +1,20 @@
+"use client";
+
 import SectionHeader from "./SectionHeader";
 import { testimonials } from "./data";
+import { useFadeFromBottom } from "@/hooks/useFadeIn";
 
 export default function TestimonialsSection() {
+  const ref = useFadeFromBottom();
+
   return (
     <section
       id="temoignages"
       className="scroll-mt-[72px] max-w-[1280px] mx-auto px-5 py-12 sm:px-6 sm:py-16 md:px-8 md:py-[100px]"
     >
-      <SectionHeader num="( 06 )" title="Témoignages" tag="RETOURS" />
+      <SectionHeader title="Témoignages" tag="RETOURS" />
       <div
-        data-reveal
+        ref={ref}
         className="grid grid-cols-1 gap-px md:grid-cols-2 bg-(--line) border border-(--line)"
       >
         {testimonials.map((tm) => (
