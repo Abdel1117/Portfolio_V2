@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 type Props = {
@@ -84,8 +85,7 @@ export default function Nav({ theme, onToggleTheme }: Props) {
           href="#accueil"
           className="flex items-center gap-2.5 font-medium uppercase"
         >
-          <span className="inline-block w-2.25 h-2.25 bg-(--accent) rounded-full" />
-          A.&nbsp;Adjali
+          <Image src={"/images/logo.png"} width={40} height={40} alt="logo" />
         </a>
 
         <div className={`nav__links${menuOpen ? " open" : ""}`}>

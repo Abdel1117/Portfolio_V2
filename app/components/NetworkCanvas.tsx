@@ -30,7 +30,7 @@ export default function NetworkCanvas() {
     let nodes: Node[] = [];
 
     const buildNodes = () => {
-      const count = 600;
+      const count = w < 768 ? 200 : 600;
       nodes = [];
       for (let i = 0; i < count; i++) {
         nodes.push({
